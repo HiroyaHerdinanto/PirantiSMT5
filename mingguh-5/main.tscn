@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://cfie57xbgt0kx"]
+
+[ext_resource type="Script" uid="uid://cybpsbv3f674w" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://q47i4ldtgw68" path="res://enemy_spawner.gd" id="2_lquwl"]
+[ext_resource type="PackedScene" uid="uid://du447piei1j8g" path="res://Enemies/fish_easy.tscn" id="3_7mycd"]
+[ext_resource type="PackedScene" uid="uid://b8ltswbqht282" path="res://Enemies/fish_fast.tscn" id="4_272bh"]
+[ext_resource type="PackedScene" uid="uid://bjb2cl1tgvcjt" path="res://Enemies/fish_golden.tscn" id="5_5vw27"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_ig7tw")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="GameTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 249)
+scale = Vector2(0.959999, 0.72)
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("2_lquwl")
+
+[node name="FishEasy" parent="EnemySpawner" instance=ExtResource("3_7mycd")]
+
+[node name="FishFast" parent="EnemySpawner" instance=ExtResource("4_272bh")]
+
+[node name="FishGolden" parent="EnemySpawner" instance=ExtResource("5_5vw27")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Score:"
+
+[node name="TimeLabel" type="Label" parent="CanvasLayer"]
+offset_left = 505.0
+offset_right = 548.0
+offset_bottom = 23.0
+text = "Time:"
+
+[node name="GameOver" type="Label" parent="CanvasLayer"]
+offset_left = -220.0
+offset_top = 200.0
+offset_right = -133.0
+offset_bottom = 223.0
+scale = Vector2(2.52, 2.61999)
+text = "Game Over"
+
+[connection signal="timeout" from="Timer" to="EnemySpawner" method="_on_timer_timeout"]
+[connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
+[connection signal="enemy_hit" from="EnemySpawner/FishEasy" to="." method="_on_fish_easy_enemy_hit"]
+[connection signal="input_event" from="EnemySpawner/FishEasy" to="EnemySpawner/FishEasy" method="_on_input_event"]
