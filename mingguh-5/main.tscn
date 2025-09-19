@@ -1,10 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfie57xbgt0kx"]
+[gd_scene load_steps=9 format=3 uid="uid://cfie57xbgt0kx"]
 
-[ext_resource type="Script" uid="uid://cybpsbv3f674w" path="res://main.gd" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://q47i4ldtgw68" path="res://enemy_spawner.gd" id="2_lquwl"]
+[ext_resource type="Script" uid="uid://cybpsbv3f674w" path="res://script/main.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://q47i4ldtgw68" path="res://script/enemy_spawner.gd" id="2_lquwl"]
 [ext_resource type="PackedScene" uid="uid://du447piei1j8g" path="res://Enemies/fish_easy.tscn" id="3_7mycd"]
 [ext_resource type="PackedScene" uid="uid://b8ltswbqht282" path="res://Enemies/fish_fast.tscn" id="4_272bh"]
 [ext_resource type="PackedScene" uid="uid://bjb2cl1tgvcjt" path="res://Enemies/fish_golden.tscn" id="5_5vw27"]
+[ext_resource type="Texture2D" uid="uid://d1b8aqn32ls61" path="res://sprite/crosshair-removebg-preview.png" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://dpu0m4i3pwfel" path="res://script/cross_hair.gd" id="6_272bh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_272bh"]
+radius = 5.83095
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_ig7tw")
@@ -48,6 +53,18 @@ offset_right = -133.0
 offset_bottom = 223.0
 scale = Vector2(2.52, 2.61999)
 text = "Game Over"
+
+[node name="Cross_Hair" type="Node2D" parent="."]
+position = Vector2(83, -304)
+script = ExtResource("6_272bh")
+
+[node name="Sprite2D" type="Sprite2D" parent="Cross_Hair"]
+texture = ExtResource("6_7mycd")
+
+[node name="Area2D" type="Area2D" parent="Cross_Hair"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cross_Hair/Area2D"]
+shape = SubResource("CircleShape2D_272bh")
 
 [connection signal="timeout" from="Timer" to="EnemySpawner" method="_on_timer_timeout"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
