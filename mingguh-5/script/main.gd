@@ -7,12 +7,15 @@ var time_left: int = 30
 @onready var time_label: Label = $CanvasLayer/TimeLabel
 @onready var game_timer: Timer = $GameTimer
 @onready var game_over_label: Label = $CanvasLayer/GameOver
+@onready var r_but:Button = $CanvasLayer/Retry_button
+@onready var spawner = $EnemySpawner
 
 func _ready() -> void:
 	update_ui()
 	game_over_label.hide()
-
-	
+	r_but.hide()
+	if get_tree().paused == true:
+		get_tree().paused = false
 	game_timer.wait_time = 1.0
 	game_timer.start()
 
@@ -26,9 +29,12 @@ func update_ui() -> void:
 	time_label.text = "Time: %d" % time_left
 
 func game_over() -> void:
+	get_tree().paused = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	game_timer.stop()
 	print("Game Over! Final Score:", score)
-	game_over_label.show()
+	game_over_label.visible = true
+	r_but.visible = true
 
 
 func _on_game_timer_timeout() -> void:
@@ -37,3 +43,7 @@ func _on_game_timer_timeout() -> void:
 		time_left = 0
 		game_over()
 	update_ui()# Replace with function body.
+
+
+func _on_retry_button_pressed() -> void:
+	get_tree().reload_current_scene()

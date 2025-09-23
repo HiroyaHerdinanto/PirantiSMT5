@@ -1,12 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://cfie57xbgt0kx"]
+[gd_scene load_steps=8 format=3 uid="uid://cfie57xbgt0kx"]
 
 [ext_resource type="Script" uid="uid://cybpsbv3f674w" path="res://script/main.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://q47i4ldtgw68" path="res://script/enemy_spawner.gd" id="2_lquwl"]
-[ext_resource type="PackedScene" uid="uid://du447piei1j8g" path="res://Enemies/fish_easy.tscn" id="3_7mycd"]
-[ext_resource type="PackedScene" uid="uid://b8ltswbqht282" path="res://Enemies/fish_fast.tscn" id="4_272bh"]
-[ext_resource type="PackedScene" uid="uid://bjb2cl1tgvcjt" path="res://Enemies/fish_golden.tscn" id="5_5vw27"]
 [ext_resource type="Texture2D" uid="uid://d1b8aqn32ls61" path="res://sprite/crosshair-removebg-preview.png" id="6_7mycd"]
 [ext_resource type="Script" uid="uid://dpu0m4i3pwfel" path="res://script/cross_hair.gd" id="6_272bh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1bvp3"]
+size = Vector2(1080, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lquwl"]
+size = Vector2(20, 600)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_272bh"]
 radius = 5.83095
@@ -21,38 +24,82 @@ autostart = true
 autostart = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, 249)
 scale = Vector2(0.959999, 0.72)
 
 [node name="EnemySpawner" type="Node2D" parent="."]
 script = ExtResource("2_lquwl")
 
-[node name="FishEasy" parent="EnemySpawner" instance=ExtResource("3_7mycd")]
+[node name="Spawner_Top" type="Area2D" parent="EnemySpawner"]
+position = Vector2(0, -500)
 
-[node name="FishFast" parent="EnemySpawner" instance=ExtResource("4_272bh")]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawner/Spawner_Top"]
+shape = SubResource("RectangleShape2D_1bvp3")
 
-[node name="FishGolden" parent="EnemySpawner" instance=ExtResource("5_5vw27")]
+[node name="Spawner_Bottom" type="Area2D" parent="EnemySpawner"]
+position = Vector2(0, 500)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawner/Spawner_Bottom"]
+shape = SubResource("RectangleShape2D_1bvp3")
+
+[node name="Spawner_Left" type="Area2D" parent="EnemySpawner"]
+position = Vector2(-800, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawner/Spawner_Left"]
+shape = SubResource("RectangleShape2D_lquwl")
+
+[node name="Spawner_Right" type="Area2D" parent="EnemySpawner"]
+position = Vector2(800, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemySpawner/Spawner_Right"]
+shape = SubResource("RectangleShape2D_lquwl")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ScoreLabel" type="Label" parent="CanvasLayer"]
-offset_right = 40.0
+offset_right = 48.0
 offset_bottom = 23.0
 text = "Score:"
 
 [node name="TimeLabel" type="Label" parent="CanvasLayer"]
-offset_left = 505.0
-offset_right = 548.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -21.5
+offset_right = 21.5
 offset_bottom = 23.0
+grow_horizontal = 2
 text = "Time:"
 
 [node name="GameOver" type="Label" parent="CanvasLayer"]
-offset_left = -220.0
-offset_top = 200.0
-offset_right = -133.0
-offset_bottom = 223.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.5
+offset_top = -84.5
+offset_right = -20.5
+offset_bottom = -61.5
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(2.52, 2.61999)
 text = "Game Over"
+horizontal_alignment = 1
+
+[node name="Retry_button" type="Button" parent="CanvasLayer"]
+process_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -44.5
+offset_top = -15.5
+offset_right = 44.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Ulangi lagi"
 
 [node name="Cross_Hair" type="Node2D" parent="."]
 position = Vector2(83, -304)
@@ -68,5 +115,4 @@ shape = SubResource("CircleShape2D_272bh")
 
 [connection signal="timeout" from="Timer" to="EnemySpawner" method="_on_timer_timeout"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
-[connection signal="enemy_hit" from="EnemySpawner/FishEasy" to="." method="_on_fish_easy_enemy_hit"]
-[connection signal="input_event" from="EnemySpawner/FishEasy" to="EnemySpawner/FishEasy" method="_on_input_event"]
+[connection signal="pressed" from="CanvasLayer/Retry_button" to="." method="_on_retry_button_pressed"]

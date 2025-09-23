@@ -1,12 +1,11 @@
 extends Node2D
 
 @onready var hit_zone: Area2D = $Area2D
-
-# Pengaturan kecepatan
 @export var move_speed: float = 300.0
 @export var use_mouse_movement: bool = true
 @export var use_wasd_movement: bool = true
 
+var ftime:bool 
 var velocity: Vector2 = Vector2.ZERO
 var is_moving_with_wasd: bool = false
 var last_mouse_position: Vector2
@@ -18,17 +17,30 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	handle_movement(delta)
 	
-	# Update posisi berdasarkan velocity
 	global_position += velocity * delta
-	
-	# Simpan posisi mouse terakhir
-	last_mouse_position = get_global_mouse_position()
+	#print("global posisi sekarang = " + str(global_position))
+	#print("lmouse posisi sekarang = " + str(last_mouse_position))
+
 
 func handle_movement(delta: float) -> void:
 	velocity = Vector2.ZERO
 	
-	# Gerakan dengan WASD (jika diaktifkan)
-	if use_wasd_movement:
+	if use_mouse_movement:
+		if ftime:
+			var viewport = get_viewport()
+			var camera:Camera2D = viewport.get_camera_2d()
+			
+			if camera:
+				var viewport_pos = camera.get_global_transform() * global_position
+				Input.warp_mouse(viewport_pos)
+			else:
+				var viewport_pos = viewport.get_screen_transform() * global_position
+				Input.warp_mouse(viewport_pos)
+			ftime = false
+		global_position = get_global_mouse_position()
+	
+	elif use_wasd_movement:
+		ftime = true
 		var input_vector = Vector2.ZERO
 		
 		if Input.is_action_pressed("right"):
@@ -44,40 +56,31 @@ func handle_movement(delta: float) -> void:
 			input_vector = input_vector.normalized()
 			velocity = input_vector * move_speed
 			is_moving_with_wasd = true
+			last_mouse_position = global_position
+			
 		else:
-			# Jika tidak ada input WASD, kembali ke mode mouse
 			is_moving_with_wasd = false
+			last_mouse_position = global_position
+		
 	
-	# Gerakan dengan mouse (jika diaktifkan dan tidak sedang menggunakan WASD)
-	if use_mouse_movement and not is_moving_with_wasd:
-		global_position = get_global_mouse_position()
 
 func _input(event: InputEvent) -> void:
-	# Deteksi pergerakan mouse
 	if event is InputEventMouseMotion:
 		is_moving_with_wasd = false
+		use_mouse_movement = true
+	elif event is InputEventKey:
+		is_moving_with_wasd = true
+		use_mouse_movement = false
 	
-	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			shoot()
+	if Input.is_action_just_pressed("Shoot"):
+		shoot()
 
 func shoot() -> void:
-	# Pastikan kita menggunakan posisi mouse yang benar
-	# Jika sedang bergerak dengan WASD, gunakan posisi mouse terakhir yang disimpan
-	# Jika tidak, gunakan posisi mouse saat ini
-	var shoot_position
-	if is_moving_with_wasd:
-		shoot_position = last_mouse_position
-	else:
-		shoot_position = get_global_mouse_position()
-	
-	# Pindah ke posisi shoot yang ditentukan
-	global_position = shoot_position
-	
-	# Lakukan pengecekan hit zone
+	print("dor")
 	var result = hit_zone.get_overlapping_areas()
 	if !result or result.size() == 0:
 		return
 	for hitted in result:
 		if hitted.has_method("on_shot"):
 			hitted.on_shot()
+	print("dor kena " + str(result.size()))

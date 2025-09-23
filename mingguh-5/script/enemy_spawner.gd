@@ -1,23 +1,20 @@
 extends Node2D
 
+@onready var spawner_top = $Spawner_Top
+@onready var spawner_bot = $Spawner_Bottom
+@onready var spawner_left = $Spawner_Left
+@onready var spawner_right = $Spawner_Right
+
 # preload scene musuh
 var enemy_scenes: Array[PackedScene] = [
 	preload("res://Enemies/fish_easy.tscn"),
 	preload("res://Enemies/fish_fast.tscn"),
-	preload("res://Enemies/fish_golden.tscn")
+	preload("res://Enemies/fish_golden.tscn"),
+	preload("res://Enemies/fish_fake.tscn")
 ]
 
 # bobot spawn (semakin besar makin sering muncul)
-var enemy_weights: Array = [70, 25, 5]
-
-# area spawn
-var screen_width: float = 800
-var margin: float = 100
-var spawn_x_range: Vector2 = Vector2(-screen_width/2 + margin, screen_width/2 - margin)
-
-# posisi spawn Y
-var spawn_y_bottom: float = 600
-var spawn_y_top: float = -100
+var enemy_weights: Array = [70, 25, 5, 50]
 
 var spawn_chance: float = 0.6   # 60% kemungkinan spawn tiap tick
 
@@ -27,7 +24,6 @@ func _ready() -> void:
 	randomize()
 	timer.wait_time = 0.5
 	timer.start()
-	
 
 func pick_weighted_index(weights: Array) -> int:
 	var total: float = 0.0
@@ -43,24 +39,45 @@ func pick_weighted_index(weights: Array) -> int:
 	
 	return weights.size() - 1
 
-
 func _on_timer_timeout() -> void:
+	print("spawm")
 	if randf() < spawn_chance:
 		var idx = pick_weighted_index(enemy_weights)
 		var enemy = enemy_scenes[idx].instantiate()
+		
 
-		# posisi random
-		var rand_x = randf_range(spawn_x_range.x, spawn_x_range.y)
-		var spawn_from_top = randf() < 0.5
+		var spawners = [spawner_top, spawner_bot, spawner_left, spawner_right]
+		var spawner_index = randi() % spawners.size()
+		var selected_spawner = spawners[spawner_index]
+		
+		# Tentukan target berdasarkan spawner yang dipilih
+		var target_spawner
+		match spawner_index:
+			0: # Top -> target Bottom
+				target_spawner = spawner_bot
+			1: # Bottom -> target Top
+				target_spawner = spawner_top
+			2: # Left -> target Right
+				target_spawner = spawner_right
+			3: # Right -> target Left
+				target_spawner = spawner_left
+		
+		enemy.global_position = selected_spawner.global_position + select_random(selected_spawner)
+		
+		enemy.target_position = target_spawner.global_position + select_random(target_spawner)
+		
+		var direction = (target_spawner.global_position - selected_spawner.global_position).normalized()
+		enemy.direction = direction
+		
+		if enemy.has_signal("enemy_hit"):
+			enemy.connect("enemy_hit", Callable(get_parent(), "add_score"))
+		
+		add_child(enemy)
 
-		if spawn_from_top:
-			enemy.global_position = Vector2(rand_x, spawn_y_top)
-			enemy.direction = Vector2(randf_range(-0.3, 0.3), 1).normalized()
-		else:
-			enemy.global_position = Vector2(rand_x, spawn_y_bottom)
-			enemy.direction = Vector2(randf_range(-0.3, 0.3), -1).normalized()
-
-		# connect signal ke Main.gd
-		enemy.connect("enemy_hit", Callable(get_parent(), "add_score"))
-
-		add_child(enemy) # Replace with function body.
+func select_random(col:Area2D) -> Vector2:
+	var collision = col.get_node("CollisionShape2D")
+	var collision_shape = collision.shape
+	var extents = collision_shape.size / 2
+	var random_x = randf_range(-extents.x, extents.x)
+	var random_y = randf_range(-extents.y, extents.y)
+	return Vector2(random_x,random_y)

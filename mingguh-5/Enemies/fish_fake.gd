@@ -11,5 +11,5 @@ func _process(delta: float) -> void:
 			queue_free()
 
 func on_shot():
-	emit_signal("enemy_hit", 10, 2)
+	emit_signal("enemy_hit", -25, -10) 
 	queue_free()
