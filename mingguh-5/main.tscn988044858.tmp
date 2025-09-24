@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://cfie57xbgt0kx"]
+[gd_scene load_steps=8 format=3 uid="uid://cfie57xbgt0kx"]
 
 [ext_resource type="Script" uid="uid://cybpsbv3f674w" path="res://script/main.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://q47i4ldtgw68" path="res://script/enemy_spawner.gd" id="2_lquwl"]
-[ext_resource type="Texture2D" uid="uid://b8ioeev0a2d85" path="res://sprite/beckground.png" id="5_lquwl"]
 [ext_resource type="Texture2D" uid="uid://d1b8aqn32ls61" path="res://sprite/crosshair-removebg-preview.png" id="6_7mycd"]
 [ext_resource type="Script" uid="uid://dpu0m4i3pwfel" path="res://script/cross_hair.gd" id="6_272bh"]
 
@@ -17,11 +16,6 @@ radius = 5.83095
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_ig7tw")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(4, -158)
-scale = Vector2(8.98047, 8.88672)
-texture = ExtResource("5_lquwl")
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true

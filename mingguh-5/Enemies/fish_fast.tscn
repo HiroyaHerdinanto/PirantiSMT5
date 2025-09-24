@@ -1,7 +1,43 @@
-[gd_scene load_steps=4 format=3 uid="uid://b8ltswbqht282"]
+[gd_scene load_steps=9 format=3 uid="uid://b8ltswbqht282"]
 
 [ext_resource type="Script" uid="uid://bowqydehvlg7b" path="res://Enemies/fish_fast.gd" id="1_y4tls"]
-[ext_resource type="Texture2D" uid="uid://crhftn61tqqfs" path="res://icon.svg" id="2_sn7jg"]
+[ext_resource type="Texture2D" uid="uid://bsbqi4o1wukk5" path="res://sprite/iwak fast.png" id="2_m7eir"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhes6"]
+atlas = ExtResource("2_m7eir")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x315s"]
+atlas = ExtResource("2_m7eir")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ctn0g"]
+atlas = ExtResource("2_m7eir")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ci15k"]
+atlas = ExtResource("2_m7eir")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ynnu8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhes6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x315s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ctn0g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ci15k")
+}],
+"loop": true,
+"name": &"Iwak_Fast",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_etewq"]
 size = Vector2(20, 19)
@@ -9,10 +45,10 @@ size = Vector2(20, 19)
 [node name="FishFast" type="Area2D"]
 script = ExtResource("1_y4tls")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.803758, 1.34766e-06, 0.41183, 1)
-scale = Vector2(0.479999, 0.249944)
-texture = ExtResource("2_sn7jg")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+rotation = -1.5708
+sprite_frames = SubResource("SpriteFrames_ynnu8")
+animation = &"Iwak_Fast"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.5)

@@ -10,7 +10,7 @@ var enemy_scenes: Array[PackedScene] = [
 	preload("res://Enemies/fish_easy.tscn"),
 	preload("res://Enemies/fish_fast.tscn"),
 	preload("res://Enemies/fish_golden.tscn"),
-	preload("res://Enemies/fish_fake.tscn")
+	preload("res://Enemies/fish_Fake1.tscn")
 ]
 
 # bobot spawn (semakin besar makin sering muncul)

@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://16dq0swtrusn"]
+
+[ext_resource type="Texture2D" uid="uid://dnlf1o1teqkj7" path="res://sprite/iwak fake.png" id="1_qlm17"]
+[ext_resource type="PackedScene" uid="uid://16dq0swtrusn" path="res://Enemies/fish_fake.tscn" id="2_qj2ym"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjqe7"]
+atlas = ExtResource("1_qlm17")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udyqd"]
+atlas = ExtResource("1_qlm17")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_736qs"]
+atlas = ExtResource("1_qlm17")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_geg87"]
+atlas = ExtResource("1_qlm17")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m605y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjqe7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_udyqd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_736qs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_geg87")
+}],
+"loop": true,
+"name": &"Iwak_Fake",
+"speed": 5.0
+}]
+
+[node name="FishFake" instance=ExtResource("2_qj2ym")]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." index="0"]
+rotation = -1.5708
+sprite_frames = SubResource("SpriteFrames_m605y")
+animation = &"Iwak_Fake"
+
+[node name="Sprite2D" parent="." index="1"]
+visible = false

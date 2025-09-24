@@ -1,20 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://16dq0swtrusn"]
+[gd_scene load_steps=3 format=3 uid="uid://16dq0swtrusn"]
 
 [ext_resource type="Script" uid="uid://mynxrpuu7vn7" path="res://Enemies/fish_fake.gd" id="1_qlm17"]
-[ext_resource type="Texture2D" uid="uid://crhftn61tqqfs" path="res://icon.svg" id="2_qj2ym"]
+[ext_resource type="PackedScene" uid="uid://16dq0swtrusn" path="res://Enemies/fish_fake.tscn" id="2_qj2ym"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_etewq"]
-size = Vector2(20, 19)
-
-[node name="FishFake" type="Area2D"]
+[node name="FishFake" instance=ExtResource("2_qj2ym")]
 script = ExtResource("1_qlm17")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-self_modulate = Color(0, 1, 0, 1)
-scale = Vector2(0.479999, 0.249944)
-texture = ExtResource("2_qj2ym")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -0.5)
-scale = Vector2(3.19006, 1.57776)
-shape = SubResource("RectangleShape2D_etewq")
