@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://1u0r5m0n458"]
+
+[ext_resource type="Script" uid="uid://b2sced6r6lihf" path="res://script/sensitivity_manager.gd" id="1_d7ki5"]
+
+[node name="Sensitivity_Manager" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_d7ki5")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer"]
+z_index = 5
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -286.0
+offset_right = 43.0
+offset_bottom = -9.0
+grow_vertical = 0
+value = 25.0
+fill_mode = 3
+show_percentage = false

@@ -40,17 +40,18 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_etewq"]
-size = Vector2(20, 19)
+size = Vector2(8.46379, 31.0567)
 
 [node name="FishGolden" type="Area2D"]
 script = ExtResource("1_r2m1y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-rotation = -1.5708
 sprite_frames = SubResource("SpriteFrames_ytsjg")
 animation = &"Iwak_Gold"
+autoplay = "Iwak_Gold"
+frame_progress = 0.238618
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -0.5)
+position = Vector2(-1.5, -2.5)
 scale = Vector2(3.19006, 1.57776)
 shape = SubResource("RectangleShape2D_etewq")

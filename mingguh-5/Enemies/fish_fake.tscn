@@ -1,7 +1,57 @@
-[gd_scene load_steps=3 format=3 uid="uid://16dq0swtrusn"]
+[gd_scene load_steps=9 format=3 uid="uid://dibnrfd73ey7v"]
 
 [ext_resource type="Script" uid="uid://mynxrpuu7vn7" path="res://Enemies/fish_fake.gd" id="1_qlm17"]
-[ext_resource type="PackedScene" uid="uid://16dq0swtrusn" path="res://Enemies/fish_fake.tscn" id="2_qj2ym"]
+[ext_resource type="Texture2D" uid="uid://dnlf1o1teqkj7" path="res://sprite/iwak fake.png" id="2_qj2ym"]
 
-[node name="FishFake" instance=ExtResource("2_qj2ym")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_sqws3"]
+atlas = ExtResource("2_qj2ym")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jfbcg"]
+atlas = ExtResource("2_qj2ym")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tqyfe"]
+atlas = ExtResource("2_qj2ym")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2doro"]
+atlas = ExtResource("2_qj2ym")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ua6m3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sqws3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jfbcg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tqyfe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2doro")
+}],
+"loop": true,
+"name": &"Iwak_Fake",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_etewq"]
+size = Vector2(8.46379, 31.0567)
+
+[node name="FishGolden" type="Area2D"]
 script = ExtResource("1_qlm17")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ua6m3")
+animation = &"Iwak_Fake"
+autoplay = "Iwak_Fake"
+frame_progress = 0.591807
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, -2.5)
+scale = Vector2(3.19006, 1.57776)
+shape = SubResource("RectangleShape2D_etewq")

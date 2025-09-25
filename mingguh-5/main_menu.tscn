@@ -1,0 +1,85 @@
+[gd_scene load_steps=7 format=3 uid="uid://b23b3x3ib5xno"]
+
+[ext_resource type="Texture2D" uid="uid://b8ioeev0a2d85" path="res://sprite/beckground.png" id="1_06t4h"]
+[ext_resource type="PackedScene" uid="uid://7l4j5t1cbtwj" path="res://master_hand.tscn" id="1_glbon"]
+[ext_resource type="Script" uid="uid://cu0wfvn8mwtj2" path="res://script/main_menu.gd" id="1_nlkkf"]
+[ext_resource type="Theme" uid="uid://dg3gcpygbueem" path="res://button_MM.tres" id="2_7vrkn"]
+[ext_resource type="Script" uid="uid://8iu4w7hb6y0i" path="res://script/play_btn.gd" id="3_fu7sn"]
+[ext_resource type="Script" uid="uid://cvcddr0c61crh" path="res://script/quit_btn.gd" id="4_jix8l"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nlkkf")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 504.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_06t4h")
+expand_mode = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -169.0
+offset_top = -20.0
+offset_right = 169.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="Play" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(119, 40)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("2_7vrkn")
+text = "Mulai berburu"
+script = ExtResource("3_fu7sn")
+
+[node name="Quit" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(119, 40)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("2_7vrkn")
+text = "Aku Pergi"
+script = ExtResource("4_jix8l")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -98.5
+offset_top = -210.5
+offset_right = 98.5
+offset_bottom = -141.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.0974125, 0.313475, 1, 1)
+theme_override_font_sizes/font_size = 50
+text = "JEWFISH"
+
+[node name="Master_Hand" parent="." instance=ExtResource("1_glbon")]
+z_index = 2
+
+[connection signal="pressed" from="HBoxContainer/Play" to="HBoxContainer/Play" method="_on_pressed"]
+[connection signal="pressed" from="HBoxContainer/Quit" to="HBoxContainer/Quit" method="_on_pressed"]

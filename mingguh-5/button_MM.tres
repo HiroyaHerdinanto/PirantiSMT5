@@ -1,0 +1,14 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dg3gcpygbueem"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k64i7"]
+
+[resource]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_focus_color = Color(0, 0, 0.94902, 1)
+Button/colors/font_hover_color = Color(0, 0, 1, 1)
+Button/colors/font_pressed_color = Color(0, 0.501961, 0, 1)
+Button/styles/disabled = SubResource("StyleBoxEmpty_k64i7")
+Button/styles/focus = SubResource("StyleBoxEmpty_k64i7")
+Button/styles/hover = SubResource("StyleBoxEmpty_k64i7")
+Button/styles/normal = SubResource("StyleBoxEmpty_k64i7")
+Button/styles/pressed = SubResource("StyleBoxEmpty_k64i7")

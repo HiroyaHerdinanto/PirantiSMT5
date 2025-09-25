@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cfie57xbgt0kx"]
+[gd_scene load_steps=11 format=3 uid="uid://cfie57xbgt0kx"]
 
 [ext_resource type="Script" uid="uid://cybpsbv3f674w" path="res://script/main.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://7l4j5t1cbtwj" path="res://master_hand.tscn" id="2_7mycd"]
 [ext_resource type="Script" uid="uid://q47i4ldtgw68" path="res://script/enemy_spawner.gd" id="2_lquwl"]
+[ext_resource type="Script" uid="uid://7v31ku0hq56c" path="res://script/retry_btn.gd" id="5_272bh"]
 [ext_resource type="Texture2D" uid="uid://b8ioeev0a2d85" path="res://sprite/beckground.png" id="5_lquwl"]
 [ext_resource type="Texture2D" uid="uid://d1b8aqn32ls61" path="res://sprite/crosshair-removebg-preview.png" id="6_7mycd"]
 [ext_resource type="Script" uid="uid://dpu0m4i3pwfel" path="res://script/cross_hair.gd" id="6_272bh"]
@@ -17,11 +19,29 @@ radius = 5.83095
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_ig7tw")
+magic_hand = ExtResource("2_7mycd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(4, -158)
 scale = Vector2(8.98047, 8.88672)
 texture = ExtResource("5_lquwl")
+
+[node name="Retry_button" type="Button" parent="."]
+process_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -7.0
+offset_right = 41.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+text = "Ulangi lagi"
+script = ExtResource("5_272bh")
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
@@ -92,21 +112,6 @@ scale = Vector2(2.52, 2.61999)
 text = "Game Over"
 horizontal_alignment = 1
 
-[node name="Retry_button" type="Button" parent="CanvasLayer"]
-process_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -44.5
-offset_top = -15.5
-offset_right = 44.5
-offset_bottom = 15.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Ulangi lagi"
-
 [node name="Cross_Hair" type="Node2D" parent="."]
 position = Vector2(83, -304)
 script = ExtResource("6_272bh")
@@ -119,6 +124,6 @@ texture = ExtResource("6_7mycd")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Cross_Hair/Area2D"]
 shape = SubResource("CircleShape2D_272bh")
 
+[connection signal="pressed" from="Retry_button" to="Retry_button" method="_on_pressed"]
 [connection signal="timeout" from="Timer" to="EnemySpawner" method="_on_timer_timeout"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
-[connection signal="pressed" from="CanvasLayer/Retry_button" to="." method="_on_retry_button_pressed"]

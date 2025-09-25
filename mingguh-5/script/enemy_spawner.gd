@@ -10,7 +10,7 @@ var enemy_scenes: Array[PackedScene] = [
 	preload("res://Enemies/fish_easy.tscn"),
 	preload("res://Enemies/fish_fast.tscn"),
 	preload("res://Enemies/fish_golden.tscn"),
-	preload("res://Enemies/fish_Fake1.tscn")
+	preload("res://Enemies/fish_fake.tscn")
 ]
 
 # bobot spawn (semakin besar makin sering muncul)
@@ -40,7 +40,7 @@ func pick_weighted_index(weights: Array) -> int:
 	return weights.size() - 1
 
 func _on_timer_timeout() -> void:
-	print("spawm")
+	
 	if randf() < spawn_chance:
 		var idx = pick_weighted_index(enemy_weights)
 		var enemy = enemy_scenes[idx].instantiate()
@@ -62,12 +62,13 @@ func _on_timer_timeout() -> void:
 			3: # Right -> target Left
 				target_spawner = spawner_left
 		
-		enemy.global_position = selected_spawner.global_position + select_random(selected_spawner)
-		
-		enemy.target_position = target_spawner.global_position + select_random(target_spawner)
-		
-		var direction = (target_spawner.global_position - selected_spawner.global_position).normalized()
+		var pos = selected_spawner.global_position + select_random(selected_spawner)
+		enemy.global_position = pos
+		var target = target_spawner.global_position + select_random(target_spawner)
+		enemy.target_position = target
+		var direction = (target - pos).normalized()
 		enemy.direction = direction
+		enemy.rotation = enemy.direction.angle() + PI/2
 		
 		if enemy.has_signal("enemy_hit"):
 			enemy.connect("enemy_hit", Callable(get_parent(), "add_score"))
