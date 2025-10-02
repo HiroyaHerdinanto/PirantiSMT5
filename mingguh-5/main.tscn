@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://cybpsbv3f674w" path="res://script/main.gd" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://7l4j5t1cbtwj" path="res://master_hand.tscn" id="2_7mycd"]
 [ext_resource type="Script" uid="uid://q47i4ldtgw68" path="res://script/enemy_spawner.gd" id="2_lquwl"]
+[ext_resource type="Texture2D" uid="uid://b57pgto8ixt5o" path="res://sprite/Kolam.png" id="3_272bh"]
 [ext_resource type="Script" uid="uid://7v31ku0hq56c" path="res://script/retry_btn.gd" id="5_272bh"]
-[ext_resource type="Texture2D" uid="uid://b8ioeev0a2d85" path="res://sprite/beckground.png" id="5_lquwl"]
 [ext_resource type="Texture2D" uid="uid://d1b8aqn32ls61" path="res://sprite/crosshair-removebg-preview.png" id="6_7mycd"]
 [ext_resource type="Script" uid="uid://dpu0m4i3pwfel" path="res://script/cross_hair.gd" id="6_272bh"]
 
@@ -22,9 +22,9 @@ script = ExtResource("1_ig7tw")
 magic_hand = ExtResource("2_7mycd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(4, -158)
-scale = Vector2(8.98047, 8.88672)
-texture = ExtResource("5_lquwl")
+position = Vector2(0.500025, -0.187538)
+scale = Vector2(8.99219, 10.1309)
+texture = ExtResource("3_272bh")
 
 [node name="Retry_button" type="Button" parent="."]
 process_mode = 3

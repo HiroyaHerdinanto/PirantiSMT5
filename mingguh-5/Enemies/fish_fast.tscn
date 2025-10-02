@@ -42,7 +42,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_etewq"]
 size = Vector2(8.46379, 31.0567)
 
-[node name="FishFast" type="Area2D"]
+[node name="FishFast" type="Area2D" groups=["iwak"]]
 script = ExtResource("1_y4tls")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

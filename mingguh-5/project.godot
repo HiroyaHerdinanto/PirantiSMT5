@@ -18,6 +18,10 @@ config/icon="res://icon.svg"
 
 SensitivityManager="*res://sensitivity_manager.tscn"
 
+[global_group]
+
+iwak=""
+
 [input]
 
 ui_accept={

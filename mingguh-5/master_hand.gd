@@ -135,6 +135,8 @@ func _input(event):
 		press_current_button()
 
 func _on_button_entered(area: Area2D):
+	if area.is_in_group("iwak"):
+		return
 	print("ini area " + area.name)
 	var button = area.get_parent()
 	current_hovered_button = button
@@ -142,6 +144,8 @@ func _on_button_entered(area: Area2D):
 	button.modulate = Color(1.2, 1.2, 1.2)  # Highlight
 
 func _on_button_exited(area: Area2D):
+	if area.is_in_group("iwak"):
+		return
 	var button = area.get_parent()
 	button.release_focus()
 	button.modulate = Color.WHITE
