@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var hit_zone: Area2D = $Area2D
+@export var harpoon:PackedScene
 
 var use_mouse_movement: bool = true
 var ftime:bool 
@@ -106,10 +107,15 @@ func _input(event: InputEvent) -> void:
 		shoot()
 
 func shoot() -> void:
+	var scene = harpoon.instantiate()
 	var result = hit_zone.get_overlapping_areas()
 	if !result or result.size() == 0:
 		get_parent().missed_shot()
+		scene.is_hit = false
 	for hitted in result:
 		if hitted.has_method("on_shot"):
 			hitted.on_shot()
+		scene.is_hit = true
 	print("Tembakan kena: " + str(result.size()))
+	scene.global_position = global_position
+	get_tree().current_scene.add_child(scene)
