@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b23b3x3ib5xno"]
+[gd_scene load_steps=11 format=3 uid="uid://b23b3x3ib5xno"]
 
 [ext_resource type="Texture2D" uid="uid://b8ioeev0a2d85" path="res://sprite/beckground.png" id="1_06t4h"]
 [ext_resource type="PackedScene" uid="uid://7l4j5t1cbtwj" path="res://master_hand.tscn" id="1_glbon"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://8iu4w7hb6y0i" path="res://script/play_btn.gd" id="3_fu7sn"]
 [ext_resource type="Texture2D" uid="uid://hcmhgu4dj4qp" path="res://sprite/Keyboard.png" id="4_dy7ct"]
 [ext_resource type="Script" uid="uid://cvcddr0c61crh" path="res://script/quit_btn.gd" id="4_jix8l"]
+[ext_resource type="Texture2D" uid="uid://b7sxy4gpigkfw" path="res://sprite/Jewfish.png" id="5_0o4t1"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -53,6 +54,15 @@ offset_top = 446.0
 offset_bottom = 648.0
 grow_horizontal = 0
 texture = ExtResource("4_dy7ct")
+
+[node name="Judul" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 378.0
+offset_top = 106.0
+offset_right = 1878.0
+offset_bottom = 606.0
+scale = Vector2(0.28, 0.24)
+texture = ExtResource("5_0o4t1")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = -1
@@ -101,6 +111,7 @@ script = ExtResource("4_jix8l")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer"]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -118,13 +129,6 @@ text = "JEWFISH"
 
 [node name="Master_Hand" parent="." instance=ExtResource("1_glbon")]
 z_index = 2
-
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = 50.0
-offset_top = 100.0
-offset_right = 90.0
-offset_bottom = 140.0
 
 [connection signal="pressed" from="HBoxContainer/Play" to="HBoxContainer/Play" method="_on_pressed"]
 [connection signal="pressed" from="HBoxContainer/Quit" to="HBoxContainer/Quit" method="_on_pressed"]

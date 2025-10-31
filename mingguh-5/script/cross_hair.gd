@@ -14,6 +14,7 @@ var last_mouse_position: Vector2
 var move_speed: float:
 	get:
 		return SensitivityManager.get_sensitivity()
+var serial = null
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -23,6 +24,15 @@ func _ready() -> void:
 	
 	# Connect ke sensitivity manager
 	SensitivityManager.sensitivity_changed.connect(_on_sensitivity_changed)
+	serial = GdSerial.new()
+	serial.set_port("COM3") # ubah sesuai port Arduino lo
+	serial.set_baud_rate(9600)
+	
+	if serial.open():
+		print("✅ Terhubung ke Arduino!")
+		serial.writeline("1") # kirim sinyal awal ke Arduino
+	else:
+		print("❌ Gagal membuka port serial!")
 
 func _on_sensitivity_changed(new_value: float):
 	print("Sensitivity changed to: ", new_value)
@@ -119,3 +129,13 @@ func shoot() -> void:
 	print("Tembakan kena: " + str(result.size()))
 	scene.global_position = global_position
 	get_tree().current_scene.add_child(scene)
+	if !doned:
+		ping_arduino()
+
+var doned:bool
+func ping_arduino():
+	doned = true
+	serial.writeline("1")
+	await  get_tree().create_timer(0.5).timeout
+	serial.writeline("0")
+	doned = false
