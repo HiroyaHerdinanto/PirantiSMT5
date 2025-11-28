@@ -7,6 +7,7 @@ signal button_pressed(button_name)
 # Referensi ke area deteksi
 @onready var interaction_area: Area2D = $Area2D
 @onready var cursor_sprite: Sprite2D = $Sprite2D
+@onready var serial := GdSerial.new()
 
 var move_speed: float:
 	get:
@@ -19,10 +20,12 @@ var is_moving: bool = false
 var use_mouse_movement: bool = false
 var is_moving_with_wasd: bool = false
 var is_moving_with_stick: bool = false
+var use_arduino_movement: bool = false
 var ftime: bool = false
 var last_mouse_position: Vector2
-
-# Controller deadzone
+var move_X := 0.0
+var move_y := 0.0
+var tilt_sensitivity := 0.1
 var deadzone: float = 0.2
 
 func _ready():
@@ -37,13 +40,24 @@ func _physics_process(delta):
 	handle_movement(delta)
 	global_position += velocity * delta
 	
-	# Update visual cursor
+	if SerialManager.serial.is_open():
+		serial = SerialManager.serial
 	update_cursor_visual()
 
 func handle_movement(delta):
 	velocity = Vector2.ZERO
 	
-	if use_mouse_movement:
+	if use_arduino_movement:  # atau bikin flag khusus misal use_arduino = true
+		var ax = move_X
+		var ay = -move_y
+		var input_vector = Vector2(ax, ay) * tilt_sensitivity
+		if input_vector.length() > 0.01:
+			velocity = input_vector * move_speed
+			last_mouse_position = global_position
+		else:
+			velocity = Vector2.ZERO
+		return
+	elif use_mouse_movement:
 		if ftime:
 			var viewport = get_viewport()
 			var viewport_pos = viewport.get_screen_transform() * global_position
@@ -111,8 +125,15 @@ func _on_sensitivity_changed(new_value: float):
 	print("Sensitivity changed to: ", new_value)
 
 func _input(event):
-	# Deteksi perubahan input method
-	if event is InputEventMouseMotion:
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_F:   # Tekan F untuk ON/OFF Arduino
+			use_arduino_movement = !use_arduino_movement
+			is_moving_with_wasd = false
+			use_mouse_movement = false
+			is_moving_with_stick = false
+			print("Arduino movement:", use_arduino_movement)
+			return
+	elif event is InputEventMouseMotion:
 		is_moving_with_wasd = false
 		use_mouse_movement = true
 		is_moving_with_stick = false
@@ -184,3 +205,40 @@ func set_interaction_enabled(enabled: bool):
 func move_to_button(button: Control):
 	if button:
 		global_position = button.global_position
+
+func _parse_data(data: String):
+	var parts = data.split(",")
+	if parts.size() != 2:
+		return
+
+	var roll  = parts[0].to_float()
+	var pitch = parts[1].to_float()
+
+	move_X = roll 
+	move_y = pitch  
+	var mv = Vector2(move_X,move_y)
+	print("parse terbaru:", mv)
+
+var serial_buffer := ""
+
+func _on_timer_timeout() -> void:
+	if not serial.is_open():
+		return
+	var available := serial.bytes_available()
+	if available <= 0:
+		print("lah")
+		return
+
+	var raw: PackedByteArray = serial.read(available)
+	var chunk := raw.get_string_from_utf8()
+
+	
+	serial_buffer += chunk
+
+	var lines = serial_buffer.split("\n")
+	var latest_line = lines[lines.size() - 2]  # ambil line terakhir lengkap
+	serial_buffer = ""  # reset buffer
+
+	# Parse SATU data paling baru
+	_parse_data(latest_line)
+	print("data terbaru:", latest_line)

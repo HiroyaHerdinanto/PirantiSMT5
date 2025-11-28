@@ -1,7 +1,7 @@
 extends Node2D
 
 var score: int = 0
-var time_left: int = 30
+var time_left: int = 1000
 @export var magic_hand:PackedScene
 @onready var score_label: Label = $CanvasLayer/ScoreLabel
 @onready var time_label: Label = $CanvasLayer/TimeLabel

@@ -113,6 +113,30 @@ scale = Vector2(2.52, 2.61999)
 text = "Game Over"
 horizontal_alignment = 1
 
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 67.0
+offset_top = -23.0
+offset_right = 107.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -89.0
+offset_top = -23.0
+offset_right = -49.0
+grow_horizontal = 2
+grow_vertical = 0
+
 [node name="Cross_Hair" type="Node2D" parent="."]
 position = Vector2(83, -304)
 script = ExtResource("6_272bh")
@@ -127,6 +151,11 @@ texture = ExtResource("9_efxa6")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Cross_Hair/Area2D"]
 shape = SubResource("CircleShape2D_272bh")
 
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
+
 [connection signal="pressed" from="Retry_button" to="Retry_button" method="_on_pressed"]
 [connection signal="timeout" from="Timer" to="EnemySpawner" method="_on_timer_timeout"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
+[connection signal="timeout" from="Timer2" to="Cross_Hair" method="_on_SerialTimer_timeout"]
